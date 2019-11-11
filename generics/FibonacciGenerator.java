@@ -1,6 +1,6 @@
 package generics;
 
-public class Fibonacci implements Generator<Integer> {
+public class FibonacciGenerator implements Generator<Integer> {
 	private int count = 0;
 
 	public Integer next() {
@@ -16,7 +16,7 @@ public class Fibonacci implements Generator<Integer> {
 	}
 
 	public static void main(String[] args) {
-		Fibonacci gen = new Fibonacci();
+		FibonacciGenerator gen = new FibonacciGenerator();
 
 		for (int i = 0; i < 18; i ++) {
 			System.out.println(gen.next());

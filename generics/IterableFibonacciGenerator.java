@@ -2,10 +2,10 @@ package generics;
 
 import java.util.Iterator;
 
-public class IterableFibonacci extends Fibonacci implements Iterable<Integer> {
+public class IterableFibonacciGenerator extends FibonacciGenerator implements Iterable<Integer> {
 	private int n;
 
-	public IterableFibonacci(int n) {
+	public IterableFibonacciGenerator(int n) {
 		this.n = n;
 	}
 
@@ -17,7 +17,7 @@ public class IterableFibonacci extends Fibonacci implements Iterable<Integer> {
 
 			public Integer next() {
 				n--;
-				return IterableFibonacci.this.next();
+				return IterableFibonacciGenerator.this.next();
 			}
 
 			public void remove() {
@@ -27,7 +27,7 @@ public class IterableFibonacci extends Fibonacci implements Iterable<Integer> {
 	}
 
 	public static void main(String[] args) {
-		for (int i : new IterableFibonacci(18)) {
+		for (int i : new IterableFibonacciGenerator(18)) {
 			System.out.println(i);
 		}
 	}
