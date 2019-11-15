@@ -1,5 +1,11 @@
 package generics;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class ContainerMethodDifferences {
 	static Set<String> methodSet(Class<?> type) {
 		Set<String> result = new TreeSet<String>();

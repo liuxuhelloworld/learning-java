@@ -17,15 +17,3 @@ public class Ex8 {
 		}
 	}
 }
-
-class Gerbil {
-	private int gerbilNumber;
-
-	public Gerbil(int i) {
-		gerbilNumber = i;
-	}
-
-	public void hop() {
-		System.out.println("Gerbil " + gerbilNumber + " hopps");
-	}
-}

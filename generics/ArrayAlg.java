@@ -1,16 +1,15 @@
 package generics;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class ArrayAlg {
-	public static Pair<String> minmax(String[] a) {
+	public static <T extends Comparable> Pair<T> minmax(T[] a) {
 		if (a == null || a.length == 0) {
 			return null;
 		}
 
-		String min = a[0];
-		String max = a[0];
+		T min = a[0];
+		T max = a[0];
 		for (int i = 0; i < a.length; i++) {
 			if (min.compareTo(a[i]) > 0) {
 				min = a[i];
@@ -20,11 +19,25 @@ public class ArrayAlg {
 			}
 		}
 
-		return new Pair<String>(min, max);
+		return new Pair<T>(min, max);
 	}
 
-	public static <T> T getMiddle(T... a) {
-		Arrays.sort(a);
+	public static <T> T getMiddle(T[] a) {
 		return a[a.length / 2];
+	}
+
+	public static <T extends Comparable> T min(T[] a) {
+		if (a == null || a.length == 0) {
+			return null;
+		}
+
+		T t = a[0];
+		for (int i = 1; i < a.length; i++) {
+			if (t.compareTo(a[i]) > 0) {
+				t = a[i];
+			}
+		}
+
+		return t;
 	}
 }

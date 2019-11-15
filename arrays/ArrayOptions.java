@@ -1,5 +1,7 @@
 package arrays;
 
+import java.util.Arrays;
+
 public class ArrayOptions {
 	public static void main(String[] args) {
 		BerylliumSphere[] a;

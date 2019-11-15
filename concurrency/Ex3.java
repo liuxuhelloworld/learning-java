@@ -14,10 +14,10 @@ public class Ex3 {
 
 }
 	
-class Ex1Runner implements Runnable {
+class Ex3Runner implements Runnable {
 	private final int id;
 
-	public Ex1Runner(int id) {
+	public Ex3Runner(int id) {
 		this.id = id;
 		System.out.println("Ex1Runner " + id + " constructed");
 	}
