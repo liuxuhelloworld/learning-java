@@ -1,5 +1,7 @@
 package generics;
 
+import java.util.function.Supplier;
+
 public class Pair<T> {
 	private T first;
 	private T second;
@@ -28,5 +30,21 @@ public class Pair<T> {
 
 	public void setSecond(T val) {
 		second = val;
+	}
+
+	public String toString() {
+		return "first=" + first + ", second=" + second;
+	}
+
+	public static <T> Pair<T> makePair(Supplier<T> constr) {
+		return new Pair<>(constr.get(), constr.get());
+	}
+
+	public static <T> Pair<T> makePair(Class<T> cl) {
+		try {
+			return new Pair<>(cl.getConstructor().newInstance(), cl.getConstructor().newInstance());
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

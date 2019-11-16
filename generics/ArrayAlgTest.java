@@ -9,6 +9,10 @@ public class ArrayAlgTest {
 		System.out.println("min = " + minMaxWord.getFirst());
 		System.out.println("max = " + minMaxWord.getSecond());
 
+		String[] minMaxWordArr = ArrayAlg.minmax(String[]::new, words);
+		System.out.println(minMaxWordArr[0]);
+		System.out.println(minMaxWordArr[1]);
+
         LocalDate[] birthdays = {
             LocalDate.of(1906, 12, 9),
             LocalDate.of(1815, 12, 10),

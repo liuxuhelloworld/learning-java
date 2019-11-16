@@ -1,6 +1,6 @@
 package generics;
 
-import java.util.Arrays;
+import java.util.function.IntFunction;
 
 public class ArrayAlg {
 	public static <T extends Comparable> Pair<T> minmax(T[] a) {
@@ -20,6 +20,29 @@ public class ArrayAlg {
 		}
 
 		return new Pair<T>(min, max);
+	}
+
+	public static <T extends Comparable> T[] minmax(IntFunction<T[]> constr, T... a) {
+		T[] result = constr.apply(2);
+
+		if (a == null || a.length == 0) {
+			return null;
+		}
+
+		T min = a[0];
+		T max = a[0];
+		for (int i = 1; i < a.length; i++) {
+			if (min.compareTo(a[i]) > 0) {
+				min = a[i];
+			}
+			if (max.compareTo(a[i]) < 0) {
+				max = a[i];
+			}
+		}
+
+		result[0] = min;
+		result[1] = max;
+		return result;
 	}
 
 	public static <T> T getMiddle(T[] a) {
