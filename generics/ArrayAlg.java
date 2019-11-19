@@ -49,7 +49,7 @@ public class ArrayAlg {
 		return a[a.length / 2];
 	}
 
-	public static <T extends Comparable> T min(T[] a) {
+	public static <T extends Comparable<? super T>> T min(T[] a) {
 		if (a == null || a.length == 0) {
 			return null;
 		}

@@ -23,6 +23,9 @@ public class ArrayAlgTest {
         System.out.println("minBirth = " + minMaxBirth.getFirst());
 		System.out.println("maxBirth = " + minMaxBirth.getSecond());
 
+		LocalDate min = ArrayAlg.min(birthdays);
+		System.out.println("minBirth = " + min);
+
 		String mid = ArrayAlg.getMiddle(words);
 		System.out.println("mid = " + mid);
 
