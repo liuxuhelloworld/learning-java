@@ -1,6 +1,6 @@
 package concurrency.corejava;
 
-import concurrency.corejava.v3.Bank;
+import concurrency.corejava.v5.Bank;
 
 public class BankTest {
     public static final int DELAY = 10;
