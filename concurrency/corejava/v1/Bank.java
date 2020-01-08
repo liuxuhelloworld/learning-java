@@ -10,7 +10,6 @@ public class Bank {
         Arrays.fill(accounts, initial);
     }
 
-    // not thread safe
     public void transfer(int from, int to, double amount) {
         if (accounts[from] < amount) {
             return;
