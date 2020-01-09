@@ -4,7 +4,7 @@ import concurrency.corejava.v5.Bank;
 
 public class BankTest {
     public static final int DELAY = 10;
-    public static final int NACCOUNTS = 100;
+    public static final int NACCOUNTS = 10;
     public static final double INITIAL_BALANCE = 1000;
     public static final double MAX_AMOUNT = 1000;
 
@@ -18,7 +18,8 @@ public class BankTest {
                 try {
                     while (true) {
                         int to = (int)(NACCOUNTS * Math.random());
-                        double amount = MAX_AMOUNT * Math.random();
+                        //double amount = MAX_AMOUNT * Math.random();
+                        double amount = MAX_AMOUNT * 2 * Math.random();
                         bank.transfer(from, to, amount);
                         Thread.sleep((int)(DELAY * Math.random()));
                     }
