@@ -1,4 +1,4 @@
-package concurrency.corejava.v4;
+package concurrency.corejava.bank.v4;
 
 import java.util.Arrays;
 

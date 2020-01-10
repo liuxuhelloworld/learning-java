@@ -1,13 +1,9 @@
-package concurrency.corejava.v2;
+package concurrency.corejava.bank.v1;
 
 import java.util.Arrays;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Bank {
     private final double[] accounts;
-
-    private Lock bankLock = new ReentrantLock();
 
     public Bank(int n, double initial) {
         accounts = new double[n];
@@ -19,18 +15,12 @@ public class Bank {
             return;
         }
 
-        bankLock.lock();
-        try {
-            System.out.print(Thread.currentThread());
+        System.out.print(Thread.currentThread());
 
-            accounts[from] -= amount;
-            System.out.printf(" %10.2f from %d to %d", amount, from, to);
+        accounts[from] -= amount;
+        System.out.printf(" %10.2f from %d to %d", amount, from, to);
 
-            accounts[to] += amount;
-
-        } finally {
-            bankLock.unlock();
-        }
+        accounts[to] += amount;
 
         System.out.printf(" Total Balance: %10.2f%n", getTotalBalance());
     }

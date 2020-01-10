@@ -1,20 +1,29 @@
-package concurrency.corejava.v5;
+package concurrency.corejava.bank.v3;
 
 import java.util.Arrays;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Bank {
     private final double[] accounts;
-    private Object lock = new Object();
+
+    private Lock bankLock;
+    private Condition sufficientFunds;
 
     public Bank(int n, double initial) {
         accounts = new double[n];
         Arrays.fill(accounts, initial);
+
+        bankLock = new ReentrantLock();
+        sufficientFunds = bankLock.newCondition();
     }
 
     public void transfer(int from, int to, double amount) throws InterruptedException {
-        synchronized (lock) {
+        bankLock.lock();
+        try {
             while (accounts[from] < amount) {
-                lock.wait();
+                sufficientFunds.await();
             }
 
             System.out.print(Thread.currentThread());
@@ -24,14 +33,17 @@ public class Bank {
 
             accounts[to] += amount;
 
-            lock.notifyAll();
-
-            System.out.printf(" Total Balance: %10.2f%n", getTotalBalance());
+            sufficientFunds.signalAll();
+        } finally {
+            bankLock.unlock();
         }
+
+        System.out.printf(" Total Balance: %10.2f%n", getTotalBalance());
     }
 
     public double getTotalBalance() {
-        synchronized (lock) {
+        bankLock.lock();
+        try {
             double sum = 0.0;
 
             for (double amount : accounts) {
@@ -39,6 +51,8 @@ public class Bank {
             }
 
             return sum;
+        } finally {
+            bankLock.unlock();
         }
     }
 
