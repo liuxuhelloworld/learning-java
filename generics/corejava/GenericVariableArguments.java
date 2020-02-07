@@ -1,7 +1,9 @@
-package generics;
+package generics.corejava;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import generics.corejava.Pair;
 
 public class GenericVariableArguments {
     public static <T> void addAll(Collection<T> coll, T... args) {

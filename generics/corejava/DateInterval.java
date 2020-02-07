@@ -1,4 +1,4 @@
-package generics;
+package generics.corejava;
 
 import java.time.LocalDate;
 

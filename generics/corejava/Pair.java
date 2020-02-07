@@ -1,4 +1,4 @@
-package generics;
+package generics.corejava;
 
 import java.util.function.Supplier;
 
@@ -32,6 +32,7 @@ public class Pair<T> {
 		second = val;
 	}
 
+	@Override
 	public String toString() {
 		return "first=" + first + ", second=" + second;
 	}
