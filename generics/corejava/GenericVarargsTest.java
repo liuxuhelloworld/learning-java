@@ -3,16 +3,14 @@ package generics.corejava;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import generics.corejava.Pair;
-
-public class GenericVariableArguments {
+public class GenericVarargsTest {
     public static <T> void addAll(Collection<T> coll, T... args) {
         for (T t : args) {
             coll.add(t);
         }
     }
 
-    public static <T> T[] array(T... args) {
+    public static <E> E[] array(E... args) {
        return args;
     }
 
