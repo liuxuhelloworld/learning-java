@@ -37,6 +37,10 @@ public class Pair<T> {
 		return "first=" + first + ", second=" + second;
 	}
 
+	// public boolean equals(T val) { // error, clashes with Object.equals
+	//	return first.equals(val) && second.equals(val);
+	// }
+
 	public static <T> Pair<T> makePair(Supplier<T> constr) {
 		return new Pair<>(constr.get(), constr.get());
 	}
