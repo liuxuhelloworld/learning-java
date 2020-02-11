@@ -55,6 +55,44 @@ public class PairTest {
         System.out.println(first.getName() + " and " + second.getName() + " are buddies");
     }
 
+    public static void minmaxSalary(Manager[] a, Pair<? super Manager> result) {
+        if (a.length == 0) {
+            return ;
+        }
+
+        Manager min = a[0];
+        Manager max = a[0];
+        for (int i = 1; i < a.length; i++) {
+            if (min.getSalary() > a[i].getSalary()) {
+                min = a[i];
+            }
+            if (max.getSalary() < a[i].getSalary()) {
+                max = a[i];
+            }
+        }
+        result.setFirst(min);
+        result.setSecond(max);
+    }
+
+    public static void maxminSalary(Manager[] a, Pair<? super Manager> result) {
+        minmaxSalary(a, result);
+        swapHelper(result);
+    }
+
+    public static boolean hasNulls(Pair<?> p) {
+        return p.getFirst() == null || p.getSecond() == null;
+    }
+
+    public static <T> void swapHelper(Pair<T> p) {
+        T t = p.getFirst();
+        p.setFirst(p.getSecond());
+        p.setSecond(t);
+    }
+
+    public static void swap(Pair<?> p) {
+        swapHelper(p);
+    }
+
     public static void main(String[] args) {
         String[] words = {"Mary", "had", "a", "little", "lamb"};
         Pair<String> mm = minmax(words);
