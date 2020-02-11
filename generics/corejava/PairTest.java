@@ -3,7 +3,9 @@ package generics.corejava;
 import java.time.LocalDate;
 
 import objects.Employee;
+import objects.Executive;
 import objects.Manager;
+import objects.Person;
 
 public class PairTest {
     public static Pair<String> minmax(String[] a) {
@@ -86,7 +88,18 @@ public class PairTest {
         printBuddies(mp);
 
         Pair<? extends Employee> wildcardmp = mp;
-        // wildcardmp.setFirst(first); // compile error
-        // wildcardmp.setFirst(secondm); // compile error
+        // wildcardmp.setFirst(first); // error
+        // wildcardmp.setFirst(firstm); // error
+        Person px = wildcardmp.getFirst();
+        Employee x = wildcardmp.getFirst();
+        // Manager y = wildcardmp.getFirst();
+
+        Pair<? super Manager> wildcardep = ep;
+        // wildcardep.setFirst(first);
+        wildcardep.setFirst(firstm);
+        Executive firste = new Executive("Tome", 100);
+        wildcardep.setFirst(firste);
+        // Employee xx = wildcardep.getFirst();
+        // Manager yy = wildcardep.getFirst();
     }
 }
