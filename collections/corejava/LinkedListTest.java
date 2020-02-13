@@ -1,4 +1,4 @@
-package collections;
+package collections.corejava;
 
 import java.util.Iterator;
 import java.util.LinkedList;
