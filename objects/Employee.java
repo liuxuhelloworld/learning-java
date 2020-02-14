@@ -16,6 +16,10 @@ public class Employee extends Person implements Comparable<Employee> {
         nextId++;
     }
 
+    public Employee(String name) {
+        this(name, 0.0);
+    }
+
     public Employee(double salary) {
         this("Employee #" + nextId, salary);
     }
