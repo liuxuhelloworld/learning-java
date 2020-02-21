@@ -3,7 +3,7 @@ package objects;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Employee extends Person implements Comparable<Employee> {
+public class Employee extends Person implements Comparable<Employee>, Cloneable{
     private static int nextId = 1;
 
     private int id;
@@ -54,6 +54,11 @@ public class Employee extends Person implements Comparable<Employee> {
         return hireDay;
     }
 
+    public void setHireDay(LocalDate date) {
+        this.hireDay = date;
+    }
+
+    @Override
     public String getDescription() {
         return String.format("an employee with salary of $%.2f", salary);
     }
@@ -99,7 +104,13 @@ public class Employee extends Person implements Comparable<Employee> {
             ", hireDay=" + hireDay + "]";
     }
 
+    @Override
     public int compareTo(Employee other) {
         return Double.compare(getSalary(), other.getSalary());
+    }
+
+    @Override
+    public Employee clone() throws CloneNotSupportedException {
+        return (Employee)super.clone();
     }
 }
