@@ -9,7 +9,7 @@ public class BankTest {
     public static final double MAX_AMOUNT = 1000;
 
     public static void main(String[] args) {
-        var bank = new Bank(NACCOUNTS, INITIAL_BALANCE);
+        Bank bank = new Bank(NACCOUNTS, INITIAL_BALANCE);
 
         for (int i = 0; i < NACCOUNTS; i++) {
             int from = i;

@@ -29,8 +29,8 @@ public class Counter extends RecursiveTask<Integer> {
             return count;
         } else {
             int mid = (from + to) / 2;
-            var first = new Counter(values, from, mid, filter);
-            var second = new Counter(values, mid, to, filter);
+            Counter first = new Counter(values, from, mid, filter);
+            Counter second = new Counter(values, mid, to, filter);
             invokeAll(first, second);
             return first.join() + second.join();
         }

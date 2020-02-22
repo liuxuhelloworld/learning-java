@@ -2,29 +2,26 @@ package concurrency.corejava.executor;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class ExecutorTest1 {
     public static void main(String[] args) throws InterruptedException, ExecutionException, IOException {
-        try (var in = new Scanner(System.in)) {
+        try (Scanner in = new Scanner(System.in)) {
             System.out.print("Enter base directory: ");
             String start = in.nextLine();
             System.out.print("Enter keyword: ");
             String word = in.nextLine();
 
-            Set<Path> files = FileUtil.descendants(Path.of(start));
+            Set<Path> files = FileUtil.descendants(Paths.get(start));
 
-            var tasks = new ArrayList<Callable<Long>>();
+            List<Callable<Long>> tasks = new ArrayList<>();
             for (Path file : files) {
                 Callable<Long> task = () -> occurrences(word, file);
                 tasks.add(task);
@@ -48,7 +45,7 @@ public class ExecutorTest1 {
     }
 
     public static long occurrences(String word, Path file) {
-        try (var in = new Scanner(file)) {
+        try (Scanner in = new Scanner(file)) {
             int count = 0;
             while (in.hasNext()) {
                 if (in.next().equals(word)) {

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Scanner;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -13,11 +14,11 @@ import java.util.stream.Stream;
 public class BlockingQueueTest {
     private static final int FILE_QUEUE_SIZE = 10;
     private static final int SEARCH_THREADS = 100;
-    private static final Path DUMMY = Path.of("");
+    private static final Path DUMMY = Paths.get("");
     private static BlockingQueue<Path> queue = new ArrayBlockingQueue<>(FILE_QUEUE_SIZE);
 
     public static void main(String[] args) {
-        try (var in = new Scanner(System.in)) {
+        try (Scanner in = new Scanner(System.in)) {
             System.out.print("Enter base directory: ");
             String directory = in.nextLine();
             System.out.print("Enter keyword: ");
@@ -25,7 +26,7 @@ public class BlockingQueueTest {
 
             Runnable enumerator = () -> {
                 try {
-                    enumerate(Path.of(directory));
+                    enumerate(Paths.get(directory));
                     queue.put(DUMMY);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -37,7 +38,7 @@ public class BlockingQueueTest {
             for (int i = 0; i < SEARCH_THREADS; i++) {
                 Runnable searcher = () -> {
                     try {
-                        var done = false;
+                        boolean done = false;
                         while (!done) {
                             Path file = queue.take();
                             if (file == DUMMY) {
@@ -70,7 +71,7 @@ public class BlockingQueueTest {
     }
 
     public static void search(Path file, String keyword) throws IOException {
-        try (var in = new Scanner(file, StandardCharsets.UTF_8)) {
+        try (Scanner in = new Scanner(file, String.valueOf(StandardCharsets.UTF_8))) {
             int lineNumber = 0;
             while (in.hasNextLine()) {
                 lineNumber++;
