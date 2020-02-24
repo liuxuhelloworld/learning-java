@@ -4,8 +4,8 @@ import javax.swing.*;
 
 public class TalkingClockTest {
     public static void main(String[] args) {
-        TalkingClock clock1 = new TalkingClock(1000, true);
-        clock1.start();
+        innerclass.local.TalkingClock clock1 = new innerclass.local.TalkingClock(1000, true);
+        clock1.start(100, true);
 
         TalkingClock clock2 = new TalkingClock(1000, false);
         TalkingClock.TimePrinter listener = clock2.new TimePrinter();
