@@ -11,7 +11,10 @@ public class TalkingClockTest {
         TalkingClock.TimePrinter listener = clock2.new TimePrinter();
         clock2.start(listener);
 
-        JOptionPane.showMessageDialog(null, "Quit program?");
+        innerclass.anonymous.TalkingClock clock3 = new innerclass.anonymous.TalkingClock();
+        clock3.start(10, true);
+
+        JOptionPane.showMessageDialog(null, innerclass.anonymous.TalkingClock.getClassName());
         System.exit(0);
     }
 }
