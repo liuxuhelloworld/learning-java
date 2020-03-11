@@ -1,4 +1,4 @@
-package annotations.example;
+package annotations.actionlistenerfor;
 
 import java.awt.*;
 
