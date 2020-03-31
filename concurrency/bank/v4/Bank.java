@@ -10,6 +10,9 @@ public class Bank {
         Arrays.fill(accounts, initial);
     }
 
+    /**
+     * thread safe
+     */
     public synchronized void transfer(int from, int to, double amount) throws InterruptedException {
         while (accounts[from] < amount) {
             wait();
@@ -27,6 +30,9 @@ public class Bank {
         System.out.printf(" Total Balance: %10.2f%n", getTotalBalance());
     }
 
+    /**
+     * thread safe
+     */
     public synchronized double getTotalBalance() {
         double sum = 0.0;
 

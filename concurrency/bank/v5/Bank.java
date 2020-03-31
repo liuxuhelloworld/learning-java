@@ -11,6 +11,9 @@ public class Bank {
         Arrays.fill(accounts, initial);
     }
 
+    /**
+     * thread safe
+     */
     public void transfer(int from, int to, double amount) throws InterruptedException {
         synchronized (lock) {
             while (accounts[from] < amount) {
@@ -30,6 +33,9 @@ public class Bank {
         }
     }
 
+    /**
+     * thread safe
+     */
     public double getTotalBalance() {
         synchronized (lock) {
             double sum = 0.0;

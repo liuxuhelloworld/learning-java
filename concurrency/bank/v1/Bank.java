@@ -10,6 +10,9 @@ public class Bank {
         Arrays.fill(accounts, initial);
     }
 
+    /**
+     * not thread safe
+     */
     public void transfer(int from, int to, double amount) {
         if (accounts[from] < amount) {
             return;
@@ -25,6 +28,9 @@ public class Bank {
         System.out.printf(" Total Balance: %10.2f%n", getTotalBalance());
     }
 
+    /**
+     * not thread safe
+     */
     public double getTotalBalance() {
         double sum = 0.0;
 

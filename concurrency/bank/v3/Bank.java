@@ -19,6 +19,9 @@ public class Bank {
         sufficientFunds = bankLock.newCondition();
     }
 
+    /**
+     * thread safe
+     */
     public void transfer(int from, int to, double amount) throws InterruptedException {
         bankLock.lock();
         try {
@@ -41,6 +44,9 @@ public class Bank {
         System.out.printf(" Total Balance: %10.2f%n", getTotalBalance());
     }
 
+    /**
+     * thread safe
+     */
     public double getTotalBalance() {
         bankLock.lock();
         try {
