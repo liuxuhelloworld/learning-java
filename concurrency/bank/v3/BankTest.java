@@ -18,6 +18,7 @@ public class BankTest {
                         int to = (int)(ACCOUNTS * Math.random());
                         //double amount = MAX_AMOUNT * 2 * Math.random(); // deadlock risk
                         double amount = MAX_AMOUNT * Math.random();
+                        // bank.transfer(to, from, amount); // deadlock risk
                         bank.transfer(from, to, amount);
                         Thread.sleep((int)(DELAY * Math.random()));
                     }
