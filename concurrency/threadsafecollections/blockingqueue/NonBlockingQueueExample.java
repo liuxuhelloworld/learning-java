@@ -1,21 +1,20 @@
-package concurrency.blockingqueue;
+package concurrency.threadsafecollections.blockingqueue;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BlockingQueueTest {
-    private static final int FILE_QUEUE_SIZE = 10;
+public class NonBlockingQueueExample {
     private static final int SEARCH_THREADS = 100;
     private static final Path DUMMY = Paths.get("");
-    private static BlockingQueue<Path> queue = new ArrayBlockingQueue<>(FILE_QUEUE_SIZE);
+    private static Queue<Path> queue = new LinkedList<>();
 
     public static void main(String[] args) {
         try (Scanner in = new Scanner(System.in)) {
@@ -27,7 +26,7 @@ public class BlockingQueueTest {
             Runnable enumerator = () -> {
                 try {
                     enumerate(Paths.get(directory));
-                    queue.put(DUMMY);
+                    queue.add(DUMMY);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -40,9 +39,11 @@ public class BlockingQueueTest {
                     try {
                         boolean done = false;
                         while (!done) {
-                            Path file = queue.take();
-                            if (file == DUMMY) {
-                                queue.put(file);
+                            Path file = queue.poll();
+                            if (file == null) {
+                                done = true;
+                            } else if (file == DUMMY) {
+                                queue.add(file);
                                 done = true;
                             } else {
                                 search(file, keyword);
@@ -50,7 +51,6 @@ public class BlockingQueueTest {
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
-                    } catch (InterruptedException e) {
                     }
                 };
                 new Thread(searcher).start();
@@ -64,7 +64,7 @@ public class BlockingQueueTest {
                 if (Files.isDirectory(file)) {
                     enumerate(file);
                 } else {
-                    queue.put(file);
+                    queue.add(file);
                 }
             }
         }
@@ -77,7 +77,11 @@ public class BlockingQueueTest {
                 lineNumber++;
                 String line = in.nextLine();
                 if (line.contains(keyword)) {
-                    System.out.printf("%s:%d:%s%n", file, lineNumber, line);
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                    }
+                    System.out.printf("%s:%d:%s\n", file, lineNumber, line);
                 }
             }
         }
