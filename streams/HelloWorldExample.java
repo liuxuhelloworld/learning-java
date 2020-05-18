@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-public class CountLongWords {
+public class HelloWorldExample {
     public static void main(String[] args) throws IOException {
         String contents = new String(Files.readAllBytes(Paths.get("streams/alice.txt")), StandardCharsets.UTF_8);
         List<String> words = Arrays.asList(contents.split("\\PL+"));
