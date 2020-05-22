@@ -37,10 +37,10 @@ public class TransformStreams {
         Stream<String> longestFirst = words.stream().sorted(Comparator.comparing(String::length).reversed());
         StreamUtil.show("longestFirst", longestFirst);
 
-        Integer[] powers = Stream.iterate(1, p -> p*2)
+        Stream<Integer> powers = Stream.iterate(1, p -> p*2)
             .peek(e -> System.out.println("Fetching " + e))
-            .limit(20).toArray(Integer[]::new);
-        System.out.println(Arrays.toString(powers));
+            .limit(20);
+        StreamUtil.show("powers", powers);
     }
 
     public static Stream<String> letters(String s) {
