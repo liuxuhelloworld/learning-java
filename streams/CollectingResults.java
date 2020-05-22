@@ -38,17 +38,8 @@ public class CollectingResults {
         Object[] numbers = Stream.iterate(0, n -> n + 1).limit(10).toArray();
         System.out.println("Object array: " + numbers);
 
-        try {
-            Integer number = (Integer) numbers[0];
-            System.out.println("number: " + number);
-
-            Integer[] numbers2 = (Integer[]) numbers;
-        } catch (ClassCastException ex) {
-            ex.printStackTrace();
-        }
-
-        Integer[] numbers3 = Stream.iterate(0, n -> n+1).limit(10).toArray(Integer[]::new);
-        System.out.println("Integer array: " + numbers3);
+        Integer[] numbers2 = Stream.iterate(0, n -> n+1).limit(10).toArray(Integer[]::new);
+        System.out.println("Integer array: " + numbers2);
 
 
         Set<String> noVowelsSet = noVowels().collect(Collectors.toSet());
