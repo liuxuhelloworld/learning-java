@@ -5,16 +5,49 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.IntSummaryStatistics;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CollectingResults {
+    public static class Person {
+        private int id;
+        private String name;
+
+        public Person(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String toString() {
+            return getClass().getName() + "[id=" + id + ", name=" + name + "]";
+        }
+    }
+
+    public static Stream<Person> people() {
+        return Stream.of(new Person(1001, "Peter"),
+            new Person(1002, "Paul"),
+            new Person(1003, "Mary"));
+    }
     public static Stream<String> noVowels() throws IOException {
         String contents = new String(Files.readAllBytes(Paths.get("streams/alice.txt")), StandardCharsets.UTF_8);
         List<String> words = Arrays.asList(contents.split("\\PL+"));
@@ -57,5 +90,44 @@ public class CollectingResults {
         IntSummaryStatistics summary = noVowels().collect(Collectors.summarizingInt(String::length));
         System.out.println("average word length: " + summary.getAverage());
         System.out.println("max word length: " + summary.getMax());
+
+        Map<Integer, String> idToName = people().collect(Collectors.toMap(Person::getId, Person::getName));
+        System.out.println("idToName: " + idToName);
+
+        Map<Integer, Person> idToPerson = people().collect(Collectors.toMap(
+            Person::getId, Function.identity()));
+        System.out.println("idToPerson: " + idToPerson.getClass().getName() + idToPerson);
+
+        idToPerson = people().collect(Collectors.toMap(
+            Person::getId,
+            Function.identity(),
+            (existingValue, newValue) -> {throw new IllegalStateException();},
+            TreeMap::new
+        ));
+        System.out.println("idToPerson: " + idToPerson.getClass().getName() + idToPerson);
+
+        Stream<Locale> locales = Stream.of(Locale.getAvailableLocales());
+        Map<String, String> languageNames = locales.collect(
+            Collectors.toMap(
+                Locale::getDisplayLanguage,
+                l -> l.getDisplayLanguage(l),
+                (existingValue, newValue) -> existingValue
+            )
+        );
+        System.out.println("languageNames: " + languageNames);
+
+        locales = Stream.of(Locale.getAvailableLocales());
+        Map<String, Set<String>> coutryLanguageSets = locales.collect(
+            Collectors.toMap(
+                Locale::getDisplayCountry,
+                l -> Collections.singleton(l.getDisplayLanguage()),
+                (existingValue, newValue) -> {
+                    Set<String> union = new HashSet<>(existingValue);
+                    union.addAll(newValue);
+                    return union;
+                }
+            )
+        );
+        System.out.println("coutryLanguageSets: " + coutryLanguageSets);
     }
 }
