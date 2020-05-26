@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.IntSummaryStatistics;
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -41,6 +43,36 @@ public class CollectingResults {
         public String toString() {
             return getClass().getName() + "[id=" + id + ", name=" + name + "]";
         }
+    }
+
+    public static class City {
+        private String name;
+        private String state;
+        private int population;
+
+        public City(String name, String state, int population) {
+            this.name = name;
+            this.state = state;
+            this.population = population;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public int getPopulation() {
+            return population;
+        }
+    }
+
+    public static Stream<City> readCities(String filename) throws IOException {
+        return Files.lines(Paths.get(filename))
+                .map(l -> l.split(", "))
+                .map(e -> new City(e[0], e[1], Integer.parseInt(e[2])));
     }
 
     public static Stream<Person> people() {
@@ -129,5 +161,83 @@ public class CollectingResults {
             )
         );
         System.out.println("coutryLanguageSets: " + coutryLanguageSets);
+
+        locales = Stream.of(Locale.getAvailableLocales());
+        coutryLanguageSets = locales.collect(
+            Collectors.groupingBy(
+                Locale::getDisplayCountry,
+                Collectors.mapping(Locale::getDisplayLanguage, Collectors.toSet())
+            )
+        );
+        System.out.println("coutryLanguageSets: " + coutryLanguageSets);
+
+        locales = Stream.of(Locale.getAvailableLocales());
+        Map<String, List<Locale>> countryToLocales = locales.collect(Collectors.groupingBy(Locale::getCountry));
+        System.out.println("countryToLocales: " + countryToLocales);
+        List<Locale> chinaLocales = countryToLocales.get("CN");
+        System.out.println("chinaLocales: " + chinaLocales);
+
+        locales = Stream.of(Locale.getAvailableLocales());
+        Map<Boolean, List<Locale>> englishAndOtherLocales = locales.collect(
+            Collectors.partitioningBy(e -> e.getLanguage().equals("en"))
+        );
+        System.out.println("englishAndOtherLocales: " + englishAndOtherLocales);
+
+        locales = Stream.of(Locale.getAvailableLocales());
+        Map<String, Set<Locale>> countryToLocaleSet = locales.collect(
+            Collectors.groupingBy(Locale::getDisplayCountry, Collectors.toSet())
+        );
+        System.out.println("countryToLocaleSet: " + countryToLocaleSet);
+
+        locales = Stream.of(Locale.getAvailableLocales());
+        Map<String, Long> countryToLocaleCounts = locales.collect(
+            Collectors.groupingBy(Locale::getDisplayCountry, Collectors.counting())
+        );
+        System.out.println("countryToLocaleCounts: " + countryToLocaleCounts);
+
+        Stream<City> cities = readCities("streams/cities.txt");
+        Map<String, Optional<String>> stateToLongestCityName = cities.collect(
+            Collectors.groupingBy(
+                City::getState,
+                Collectors.mapping(
+                    City::getName,
+                    Collectors.maxBy(
+                        Comparator.comparing(String::length)
+                    )
+                )
+            )
+        );
+        System.out.println("stateToLongestCityName: " + stateToLongestCityName);
+
+        cities = readCities("streams/cities.txt");
+        Map<String, IntSummaryStatistics> stateToCityPopulationSummary = cities.collect(
+            Collectors.groupingBy(
+                City::getState,
+                Collectors.summarizingInt(City::getPopulation)
+            )
+        );
+        System.out.println("stateToCityPopulationSummary: " + stateToCityPopulationSummary);
+
+        cities = readCities("streams/cities.txt");
+        Map<String, String> stateToCityNames = cities.collect(
+            Collectors.groupingBy(
+                City::getState,
+                Collectors.mapping(City::getName, Collectors.joining(", "))
+            )
+        );
+        System.out.println("stateToCityNames: " + stateToCityNames);
+
+        cities = readCities("streams/cities.txt");
+        stateToCityNames = cities.collect(
+            Collectors.groupingBy(
+                City::getState,
+                Collectors.reducing(
+                    "",
+                    City::getName,
+                    (s, t) -> s.length() == 0 ? t : s + ", " + t
+                )
+            )
+        );
+        System.out.println("stateToCityNames: " + stateToCityNames);
     }
 }
