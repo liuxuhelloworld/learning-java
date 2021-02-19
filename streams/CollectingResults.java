@@ -139,6 +139,10 @@ public class CollectingResults {
         System.out.println("idToPerson: " + idToPerson.getClass().getName() + idToPerson);
 
         Stream<Locale> locales = Stream.of(Locale.getAvailableLocales());
+        List<String> languages = locales.map(e -> e.toLanguageTag()).collect(Collectors.toList());
+        System.out.println(languages);
+
+        locales = Stream.of(Locale.getAvailableLocales());
         Map<String, String> languageNames = locales.collect(
             Collectors.toMap(
                 Locale::getDisplayLanguage,
