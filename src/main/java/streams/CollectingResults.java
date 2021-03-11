@@ -143,6 +143,10 @@ public class CollectingResults {
         System.out.println(languages);
 
         locales = Stream.of(Locale.getAvailableLocales());
+        languages = locales.map(e -> e.getLanguage()).collect(Collectors.toList());
+        System.out.println(languages);
+
+        locales = Stream.of(Locale.getAvailableLocales());
         Map<String, String> languageNames = locales.collect(
             Collectors.toMap(
                 Locale::getDisplayLanguage,

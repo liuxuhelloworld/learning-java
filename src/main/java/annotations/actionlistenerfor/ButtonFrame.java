@@ -1,8 +1,7 @@
 package annotations.actionlistenerfor;
 
-import java.awt.*;
-
 import javax.swing.*;
+import java.awt.*;
 
 public class ButtonFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 300;
